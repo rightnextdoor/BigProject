@@ -2,11 +2,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class OddsAndEvensProgram {
+	 private static Scanner input = new Scanner(System.in);
 
     public static void oddsEvens(String name){
         String x;
         x = "y";
-        Scanner input = new Scanner(System.in);
         while (x.equals("y")) {
             playOddsEvens(name);
 
@@ -24,7 +24,6 @@ public class OddsAndEvensProgram {
     }
 
     public static void playOddsEvens(String name){
-        Scanner input = new Scanner(System.in);
         String choose, player, computer;
         int playerNum, computerNum, total, win;
 
@@ -50,8 +49,18 @@ public class OddsAndEvensProgram {
 
         Random rand = new Random();
         computerNum = rand.nextInt(6);
-        System.out.print("How many \"fingers\" do you put out? ");
-        playerNum = input.nextInt();
+        
+        do {
+	        System.out.print("How many \"fingers\" do you put out? ");
+	        if(input.hasNextInt()) {
+	        	playerNum = input.nextInt();
+	        	break;
+	        }else {
+	        	System.out.println("Please enter a number");
+	        	input.next();
+	        }
+        } while(true);
+        
         System.out.println(name+ " number is "+playerNum+". The computer number is "+computerNum+". ");
         System.out.println("-------------- \n");
 

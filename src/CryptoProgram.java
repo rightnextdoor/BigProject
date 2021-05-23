@@ -1,20 +1,39 @@
 import java.util.Scanner;
 
 public class CryptoProgram {
+	private static Scanner input = new Scanner(System.in);
 
 	public static void crypto(String name){
         String x, text;
         int key, group;
         x = "y";
-        Scanner input = new Scanner(System.in);
         System.out.println("Welcome "+name+" to crypto \n");
 
         while (x.equals("y")) {
             text = message();
-            System.out.print("Enter a key number ");
-            key = input.nextInt();
-            System.out.print("Enter a group number smaller than the text number ");
-            group = input.nextInt();
+            do {
+	            System.out.print("Enter a key number ");
+	            if(input.hasNextInt()) {
+		            key = input.nextInt();
+		            break;
+	            }
+	            else {
+		        	System.out.println("Please enter a number");
+		        	input.next();
+		        }
+            }while(true);
+            
+            do {
+	            System.out.print("Enter a group number smaller than the text number ");
+	            if(input.hasNextInt()) {
+	            	group = input.nextInt();
+	            	break;
+	            }
+	            else {
+		        	System.out.println("Please enter a number");
+		        	input.next();
+		        }
+            }while(true);
 
             text = encryptString(text, key, group);
             System.out.println("The encrypted messasge is "+ text);
@@ -38,7 +57,6 @@ public class CryptoProgram {
     }
     public static String message(){
         System.out.print("Please enter your message ");
-        Scanner input = new Scanner(System.in);
         String text = input.nextLine();
         return text;
     }
@@ -59,7 +77,7 @@ public class CryptoProgram {
     }
 
     public static String caesarify(String text, int key){
-         int num, index;
+         int index;
          String newText, letter, newLetter;
          char newChar;
 

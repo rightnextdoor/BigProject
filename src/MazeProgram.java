@@ -1,24 +1,24 @@
 import java.util.Scanner;
 
 public class MazeProgram {
+	private static Scanner input = new Scanner(System.in);
 
 	public static void maze(String name){
         String x;
         x = "y";
-        Scanner input = new Scanner(System.in);
         while (x.equals("y")) {
             Maze myMap = new Maze();
             System.out.println("Welcome "+name+" to Maze Runner! ");
             System.out.println("Here is your current position: ");
             myMap.printMap();
             int count = 0;
-            boolean test = true;
+            boolean continueMaze = true;
 
-            while (test) {
+            while (continueMaze) {
                 if (myMap.didIWin()) {
                     System.out.println("Congratulations, you made it out alive! ");
                     System.out.println("and you did it in " + count + " moves. ");
-                    test = false;
+                    continueMaze = false;
 
                 } else {
                     System.out.print("Where would you like to move? (R,L,U,D) ");
@@ -39,57 +39,64 @@ public class MazeProgram {
                             answer = input.next().toUpperCase();
 
                         }
-
-                        if (answer.equals("Y")){
-                            myMap.jumpOverPit(choose);
-                            myMap.printMap();
-
+                        switch(answer) {
+	                        case "Y":{
+	                        	myMap.jumpOverPit(choose);
+	                            myMap.printMap();
+	                            count++;
+	                        	break;
+	                        }
+	                        default:{
+	                        	break;
+	                        }
                         }
-                        count++;
+                     
                     } else {
-                        if (choose.equals("R")) {
-                            if (myMap.canIMoveRight()) {
-                                myMap.moveRight();
-                                count++;
-                            } else {
-                                System.out.println("Sorry, you've hit a wall. ");
-                                count++;
-                            }
-                        }
-                        if (choose.equals("L")){
-                            if (myMap.canIMoveLeft()){
-                                myMap.moveLeft();
-                                count++;
-                            } else {
-                                System.out.println("Sorry, you've hit a wall. ");
-                                count++;
-                            }
-                        }
-                        if (choose.equals("U")) {
-                            if (myMap.canIMoveUp()) {
-                                myMap.moveUp();
-                                count++;
-                            } else {
-                                System.out.println("Sorry, you've hit a wall. ");
-                                count++;
-                            }
-                        }
-                        if (choose.equals("D")) {
-                            if (myMap.canIMoveDown()) {
-                                myMap.moveDown();
-                            }
-                            else {
-                                System.out.println("Sorry, you've hit a wall. ");
-                                count++;
-                            }
-                        }
+                    	switch(choose) {
+	                    	case "R":{
+	                    		if (myMap.canIMoveRight()) {
+	                                myMap.moveRight();
+	                                count++;
+	                    		} else
+	                    			hitWallMessage();
+	                    		break;
+	                    	}
+	                    	case "L":{
+	                    		if (myMap.canIMoveLeft()){
+	                                myMap.moveLeft();
+	                                count++;
+	                    		}else
+	                    			hitWallMessage();
+	                    		break;
+	                    	}
+	                    	case "U":{
+	                    		if (myMap.canIMoveUp()) {
+	                                myMap.moveUp();
+	                                count++;
+	                            }else
+	                    			hitWallMessage();
+	                    		break;
+	                    	}
+	                    	case "D":{
+	                    		if (myMap.canIMoveDown()) {
+	                                myMap.moveDown();
+	                                count++;
+	                            } else
+	                    			hitWallMessage();
+	                            	
+	                    		break;
+	                    	}
+	                    	default:{
+	                    		break;
+	                    	}
+                    	}
                     }
                     movesMessage(count);
                     myMap.printMap();
 
                     if (count == 100) {
                     System.out.println("Oh no! You took too long to escape, and now the maze exit is closed FOREVER >:[");
-                    test = false;
+                    continueMaze = false;
                     }
                 }
             }
@@ -106,6 +113,10 @@ public class MazeProgram {
         System.out.println("-------------- \n");
 
     }
+	
+	public static void hitWallMessage() {
+		System.out.println("Sorry, you've hit a wall. ");
+	}
 
     public static void movesMessage(int moves) {
         if (moves == 50) {
